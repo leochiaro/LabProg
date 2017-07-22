@@ -12,9 +12,9 @@ void Resources::unsubscribeObserver(Observer *o) {
     observers.remove(o);
 }
 
-void Resources::notifyObservers() const {
+void Resources::notifyObservers(int filesize, QString filename) const {
     for (const auto &itr : observers) {
-        itr->update();
+        itr->update(filesize, filename);
     }
 }
 

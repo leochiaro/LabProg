@@ -11,7 +11,7 @@ class Subject {
 public:
     virtual void subscribeObserver(Observer* observerAddress) = 0; //TODO const?
     virtual void unsubscribeObserver(Observer* observerAddress) = 0;
-    virtual void notifyObservers() const = 0;
+    virtual void notifyObservers(int filesize, QString filename) const = 0;
 };
 
 

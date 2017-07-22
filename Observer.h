@@ -9,7 +9,7 @@ class Observer {
 public:
     virtual ~Observer() {}
 
-    virtual void update() = 0;
+    virtual void update(int filesize, QString filename) = 0;
 
     //TODO attach/detach
     /*

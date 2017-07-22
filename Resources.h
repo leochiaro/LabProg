@@ -17,7 +17,7 @@ public:
 
     virtual void subscribeObserver(Observer* o) override ;
     virtual void unsubscribeObserver(Observer* o) override ;
-    virtual void notifyObservers() const override ;
+    virtual void notifyObservers(int filesize, QString filename) const override ;
 
     bool isLoaded() const;
 
