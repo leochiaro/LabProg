@@ -13,7 +13,7 @@ add_subdirectory(test)
 
 find_package(Qt5Widgets REQUIRED)
 
-set(SOURCE_FILES main.cpp Subject.h Observer.h)
+set(SOURCE_FILES main.cpp Subject.h Observer.h Resources.cpp Resources.h)
 add_executable(provaQT main.cpp)
 add_library(core ${SOURCE_FILES})
 target_link_libraries(core Qt5::Widgets)
