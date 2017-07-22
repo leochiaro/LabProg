@@ -9,9 +9,9 @@
 
 class Subject {
 public:
-    virtual void subscribe(Observer* observerAddress) = 0;
-    virtual void unsubscribe(Observer* observerAddress) = 0;
-    virtual void notify() = 0;
+    virtual void subscribeObserver(Observer* observerAddress) = 0; //TODO const?
+    virtual void unsubscribeObserver(Observer* observerAddress) = 0;
+    virtual void notifyObservers() const = 0;
 };
 
 
