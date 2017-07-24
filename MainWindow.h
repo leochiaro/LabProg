@@ -17,7 +17,7 @@
 class MainWindow : public QMainWindow, public Observer {
     Q_OBJECT
 public:
-    MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidget *parent);
+    MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidget *parent=0);
 
     virtual ~MainWindow() {
         for(const auto &itr : resources){

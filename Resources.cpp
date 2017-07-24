@@ -29,3 +29,15 @@ const QString &Resources::getFilename() const {
 int Resources::getFilesize() const {
     return filesize;
 }
+
+void Resources::setLoaded(bool loaded) {
+    Resources::loaded = loaded;
+}
+
+void Resources::setFilename(const QString &filename) {
+    Resources::filename = filename;
+}
+
+void Resources::setFilesize(int filesize) {
+    Resources::filesize = filesize;
+}

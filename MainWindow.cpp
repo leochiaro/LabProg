@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QDesktopWidget>
 
+
 #include "MainWindow.h"
 
 
@@ -76,12 +77,8 @@ void MainWindow::update(int filesize, QString filename) {
 };
 
 void MainWindow::loadResources() {
-
-    //controllare il contenuto della cartella
-
-    //inserire ogni file in un vettore di resources
-
-    //un ciclo for per caricare tutti i file, con cntrollo di avvenuto caricamento
-
-
+    //qui devo solo chiamare notify observer per caricare i files
+    for(const auto &itr : resources) {
+        itr->notifyObservers(itr->getFilesize(),itr->getFilename());
+    }
 }

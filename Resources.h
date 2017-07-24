@@ -20,17 +20,20 @@ public:
     virtual void notifyObservers(int filesize, QString filename) const override ;
 
     bool isLoaded() const;
+    void setLoaded(bool loaded);
 
     const QString &getFilename() const;
+    void setFilename(const QString &filename);
 
     int getFilesize() const;
-
+    void setFilesize(int filesize);
 
 private:
-    list<Observer *> observers;
-    bool loaded;
     QString filename;
     int filesize;
+    list<Observer *> observers;
+    bool loaded;
+
 
 };
 
