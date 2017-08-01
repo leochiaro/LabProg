@@ -8,26 +8,27 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+    //create qt application
     QApplication app(argc, argv);
 
-    vector<Resources*> resourcesAddresses;
-    int totfilesize;
+    //create resource objects
+    Resources a("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\first_file.txt");
+    Resources b("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\second_file.txt");
+    Resources c("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\third_file.txt");
+    Resources d("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\fourth_file.txt");
 
-    Resources* first = new Resources;
-    first->setFilesize(12);
-    first->setFilename("primo file");
+    /*vector to register all the subject (class Resources) addresses
+    to pass to the observer (class MainWindow)*/
+    vector<Resources *> resourcesAddresses;
 
-    Resources* second = new Resources;
-    second->setFilesize(24);
-    second->setFilename("secondo file");
+    //push back all the addresses in the vector
+    resourcesAddresses.push_back(&a);
+    resourcesAddresses.push_back(&b);
+    resourcesAddresses.push_back(&c);
+    resourcesAddresses.push_back(&d);
 
-    totfilesize=first->getFilesize()+second->getFilesize();
-
-    resourcesAddresses.push_back(first);
-    resourcesAddresses.push_back(second);
-
-    //chiama main window
-    MainWindow mainWindow(totfilesize, resourcesAddresses);
+    //create and call main window
+    MainWindow mainWindow(Resources::totdim, resourcesAddresses);
     mainWindow.show();
 
     return app.exec();

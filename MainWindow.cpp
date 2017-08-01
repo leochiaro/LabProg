@@ -3,78 +3,81 @@
 //
 #include <QPainter>
 #include <QDesktopWidget>
-
-
 #include "MainWindow.h"
 
+MainWindow::MainWindow(double totdim, vector<Resources *> resourcesAddresses, QWidget *parent) :
+        totdim(totdim), resources(resourcesAddresses), QMainWindow(parent) {
 
-
-MainWindow::MainWindow(double totdim, vector<Resources*> resourcesAddresses, QWidget *parent) : totdim(totdim), resources(resourcesAddresses), QMainWindow(parent){
-
-    for(const auto &itr : resources)
+    //register all the resource in the resourcesAddresses vector to this observer
+    for (const auto &itr : resources)
         itr->subscribeObserver(this);
 
+    //create title
     this->setWindowTitle("Elaborato Laboratorio di Programmazione - A.A. 2016/17");
     this->setFixedSize(QSize(600, 400));
 
-    title = new QLabel("Inizia a caricare i file premendo qui sotto.", this);
-    title->setGeometry(QRect(QPoint(100, 60), QSize(400, 100)));
-    title->setWordWrap(true);
-    title->setAlignment(Qt::AlignCenter);
-    QFont font = title->font();
-    font.setPointSize(16);
-    title->setFont(font);
+    //create button
+    startbutton = new QPushButton("Start", this);
+    startbutton->setGeometry(QRect(QPoint(200, 60), QSize(170, 30)));
 
-    startbutton = new QPushButton("Start loading files", this);
-    startbutton->setGeometry(QRect(QPoint(215, 200), QSize(170, 30)));
-
+    //create progress bar
     progressBar = new QProgressBar(this);
-    progressBar->setGeometry(QRect(QPoint(150, 170), QSize(300, 30)));
+    progressBar->setGeometry(QRect(QPoint(150, 100), QSize(300, 30)));
 
+    //create text box
     text = new QTextEdit(this);
-    text->setGeometry(QRect(QPoint(50, 240), QSize(500, 140)));
-    text->setText("Ready to load resources!\n");
+    text->setGeometry(QRect(QPoint(50, 180), QSize(500, 140)));
+    text->setText("Click on the 'Start' button to start loading resources\n");
     text->setReadOnly(true);
 
-    QTextCursor c =  text->textCursor();
+    QTextCursor c = text->textCursor();
     c.movePosition(QTextCursor::End);
     text->setTextCursor(c);
 
+    //set progress bar values
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
     progressBar->setValue(0);
 
+    //connect the button to the function to call on click
     connect(startbutton, SIGNAL (released()), this, SLOT (loadResources()));
 }
 
-void MainWindow::update(int filesize, QString filename) {
+void MainWindow::update(bool loaded, double filesize, QString filename) {
 
-    double perc = (filesize*100)/totdim;
+    if (loaded) {//if the file has been loaded
 
-    perc = floor(perc + 0.5);
+        //calculation of the increment of the progress bar
+        double perc = (filesize * 100) / totdim;
 
+        //approximation of the increment to a integer value //approximation of the increment to a integer value
+        perc = floor(perc + 0.5);
 
-    progressBar->setValue(progressBar->value() + static_cast<int>(perc));
+        //update progress bar value
+        progressBar->setValue(progressBar->value() + static_cast<int>(perc));
 
-
-    QString update = "? " + QString(filename) + QString(" loaded successfully (") + QString::number(filesize) + QString(" bytes).") + "\n";
-    text->append(update);
-
-
-    update = QString::number(progressBar->value()) + QString("% resources loaded!\n");
-    text->append(update);
-
-    if(progressBar->value()==progressBar->maximum()) {
-        update = QString("All resources loaded");
+        //update text
+        QString update = "? " + QString(filename) + QString(" loaded successfully (") + QString::number(filesize) +
+                         QString(" bytes).") + "\n";
         text->append(update);
-    }
 
-    //TODO lanciare eccezione se il caricamento non va a buon fine
+        //update text
+        update = QString::number(progressBar->value()) + QString("% avaible resources loaded!\n");
+        text->append(update);
+
+    } else {//if the file has not been loaded
+
+        //Update text
+        QString unpdate = "? " + QString(filename) + " not loaded\n";
+        text->append(unpdate);
+    }
 
 };
 
 void MainWindow::loadResources() {
-    for(const auto &itr : resources) {
-        itr->notifyObservers(itr->getFilesize(),itr->getFilename());
+    //when the button was clicked, it is disabled and the observer is notified
+    startbutton->setEnabled(false);
+    for (const auto &itr : resources) {
+        itr->notifyObservers(itr->isLoaded(), itr->getFilesize(), itr->getFilename());
     }
 }

@@ -9,8 +9,7 @@ class Observer {
 public:
     virtual ~Observer() {}
 
-    virtual void update(int filesize, QString filename) = 0;
-
+    virtual void update(bool loaded, double filesize, QString filename) = 0;
 };
 
 #endif //PROVAQT_OBSERVER_H
