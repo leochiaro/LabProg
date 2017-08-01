@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <iostream>
 #include "Resources.h"
+#include "MainWindow.h"
 
 //initialization of static variables
 int Resources::totRisources = 0;
@@ -57,10 +58,11 @@ void Resources::unsubscribeObserver(Observer *o) {
     observers.remove(o);
 }
 
-void Resources::notifyObservers(bool loaded, double filesize, QString filename) const {
+void Resources::notifyObservers() {
     //with this function every time the status of a file changes, every subscribed observer is updated
     for (const auto &itr : observers) {
-        itr->update(loaded, filesize, filename);
+        MainWindow::resource = this;
+        itr->update();
     }
 }
 

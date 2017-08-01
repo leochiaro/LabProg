@@ -9,10 +9,10 @@
 
 class Subject {
 public:
-    virtual void subscribeObserver(Observer *observerAddress) = 0; //TODO const?
+    virtual void subscribeObserver(Observer *observerAddress) = 0;
     virtual void unsubscribeObserver(Observer *observerAddress) = 0;
 
-    virtual void notifyObservers(bool loaded, double filesize, QString filename) const = 0;
+    virtual void notifyObservers() = 0;
 };
 
 #endif //PROVAQT_SUBJECT_H

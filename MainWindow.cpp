@@ -5,6 +5,8 @@
 #include <QDesktopWidget>
 #include "MainWindow.h"
 
+Resources * MainWindow::resource = nullptr;
+
 MainWindow::MainWindow(double totdim, vector<Resources *> resourcesAddresses, QWidget *parent) :
         totdim(totdim), resources(resourcesAddresses), QMainWindow(parent) {
 
@@ -14,19 +16,19 @@ MainWindow::MainWindow(double totdim, vector<Resources *> resourcesAddresses, QW
 
     //create title
     this->setWindowTitle("Elaborato Laboratorio di Programmazione - A.A. 2016/17");
-    this->setFixedSize(QSize(600, 400));
+    this->setFixedSize(QSize(1000, 800));
 
     //create button
     startbutton = new QPushButton("Start", this);
-    startbutton->setGeometry(QRect(QPoint(200, 60), QSize(170, 30)));
+    startbutton->setGeometry(QRect(QPoint(410, 40), QSize(180, 50)));
 
     //create progress bar
     progressBar = new QProgressBar(this);
-    progressBar->setGeometry(QRect(QPoint(150, 100), QSize(300, 30)));
+    progressBar->setGeometry(QRect(QPoint(225, 100), QSize(550, 30)));
 
     //create text box
     text = new QTextEdit(this);
-    text->setGeometry(QRect(QPoint(50, 180), QSize(500, 140)));
+    text->setGeometry(QRect(QPoint(50, 180), QSize(900, 570)));
     text->setText("Click on the 'Start' button to start loading resources\n");
     text->setReadOnly(true);
 
@@ -43,12 +45,12 @@ MainWindow::MainWindow(double totdim, vector<Resources *> resourcesAddresses, QW
     connect(startbutton, SIGNAL (released()), this, SLOT (loadResources()));
 }
 
-void MainWindow::update(bool loaded, double filesize, QString filename) {
+void MainWindow::update() {
 
-    if (loaded) {//if the file has been loaded
+    if (resource->isLoaded()) {//if the file has been loaded
 
         //calculation of the increment of the progress bar
-        double perc = (filesize * 100) / totdim;
+        double perc = (resource->getFilesize() * 100) / totdim;
 
         //approximation of the increment to a integer value //approximation of the increment to a integer value
         perc = floor(perc + 0.5);
@@ -57,7 +59,7 @@ void MainWindow::update(bool loaded, double filesize, QString filename) {
         progressBar->setValue(progressBar->value() + static_cast<int>(perc));
 
         //update text
-        QString update = "? " + QString(filename) + QString(" loaded successfully (") + QString::number(filesize) +
+        QString update = QString(resource->getFilename()) + QString(" loaded successfully (") + QString::number(resource->getFilesize()) +
                          QString(" bytes).") + "\n";
         text->append(update);
 
@@ -68,7 +70,7 @@ void MainWindow::update(bool loaded, double filesize, QString filename) {
     } else {//if the file has not been loaded
 
         //Update text
-        QString unpdate = "? " + QString(filename) + " not loaded\n";
+        QString unpdate = QString(resource->getFilename()) + " not loaded\n";
         text->append(unpdate);
     }
 
@@ -78,6 +80,6 @@ void MainWindow::loadResources() {
     //when the button was clicked, it is disabled and the observer is notified
     startbutton->setEnabled(false);
     for (const auto &itr : resources) {
-        itr->notifyObservers(itr->isLoaded(), itr->getFilesize(), itr->getFilename());
+        itr->notifyObservers();
     }
 }

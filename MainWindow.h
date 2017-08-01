@@ -26,7 +26,9 @@ public:
         }
     }
 
-    virtual void update(bool loaded, double filesize, QString filename) override;
+    virtual void update() override;
+
+    static Resources *resource;
 
 private slots: //what happens on click button
     void loadResources();
