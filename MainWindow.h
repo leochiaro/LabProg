@@ -10,14 +10,14 @@
 #include <QProgressBar>
 #include <QTextEdit>
 #include <QLabel>
-#include "Observer.h"
 #include "Resources.h"
 #include <iostream>
+#include "Observer.h"
 
 class MainWindow : public QMainWindow, public Observer {
-    Q_OBJECT
+Q_OBJECT
 public:
-    MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidget *parent=0);
+    MainWindow(double totdim, vector<Resources*> resourcesAddresses, QWidget *parent=0);
 
     virtual ~MainWindow() {
         for(const auto &itr : resources){
@@ -27,12 +27,12 @@ public:
 
     virtual void update(int filesize, QString filename) override;
 
-private slots: //what happend on click button
+private slots:
     void loadResources();
 
 private:
     vector<Resources*> resources;
-    int totdim;
+    double totdim;
 
     QPushButton * startbutton;
     QProgressBar * progressBar;
@@ -40,6 +40,5 @@ private:
 
     QLabel * title;
 };
-
 
 #endif //PROVAQT_MAINWINDOW_H

@@ -3,6 +3,10 @@
 //
 
 #include "Resources.h"
+#include <QTime>
+#include <QtCore/QCoreApplication>
+
+
 
 void Resources::subscribeObserver(Observer *o) {
     observers.push_back(o);
@@ -13,9 +17,8 @@ void Resources::unsubscribeObserver(Observer *o) {
 }
 
 void Resources::notifyObservers(int filesize, QString filename) const {
-    for (const auto &itr : observers) {
+    for (const auto &itr : observers)
         itr->update(filesize, filename);
-    }
 }
 
 bool Resources::isLoaded() const {

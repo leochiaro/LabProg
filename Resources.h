@@ -32,10 +32,7 @@ private:
     QString filename;
     int filesize;
     list<Observer *> observers;
-    bool loaded;
-
-
+    bool loaded=false;
 };
-
 
 #endif //PROVAQT_RESOURCES_H

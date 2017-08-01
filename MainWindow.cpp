@@ -8,7 +8,8 @@
 #include "MainWindow.h"
 
 
-MainWindow::MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidget *parent) : totdim(totdim), resources(resourcesAddresses), QMainWindow(parent){
+
+MainWindow::MainWindow(double totdim, vector<Resources*> resourcesAddresses, QWidget *parent) : totdim(totdim), resources(resourcesAddresses), QMainWindow(parent){
 
     for(const auto &itr : resources)
         itr->subscribeObserver(this);
@@ -24,7 +25,7 @@ MainWindow::MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidge
     font.setPointSize(16);
     title->setFont(font);
 
-    startbutton = new QPushButton("Load Resources!", this);
+    startbutton = new QPushButton("Start loading files", this);
     startbutton->setGeometry(QRect(QPoint(215, 200), QSize(170, 30)));
 
     progressBar = new QProgressBar(this);
@@ -43,41 +44,36 @@ MainWindow::MainWindow(int totdim, vector<Resources*> resourcesAddresses, QWidge
     progressBar->setMaximum(100);
     progressBar->setValue(0);
 
-    //Cnnette il tasto all'azione correlata
     connect(startbutton, SIGNAL (released()), this, SLOT (loadResources()));
 }
 
 void MainWindow::update(int filesize, QString filename) {
 
-        int perc = (filesize*100)/totdim;
+    double perc = (filesize*100)/totdim;
 
-        //Update Progress Bar Percentage
-        progressBar->setValue(progressBar->value() + perc);
+    perc = floor(perc + 0.5);
 
-        //Update text
-        QString update = "✅ " + QString(filename) + QString("' loaded successfully (") + QString::number(filesize) + QString(" bytes).") + "\n";
+
+    progressBar->setValue(progressBar->value() + static_cast<int>(perc));
+
+
+    QString update = "? " + QString(filename) + QString(" loaded successfully (") + QString::number(filesize) + QString(" bytes).") + "\n";
+    text->append(update);
+
+
+    update = QString::number(progressBar->value()) + QString("% resources loaded!\n");
+    text->append(update);
+
+    if(progressBar->value()==progressBar->maximum()) {
+        update = QString("All resources loaded");
         text->append(update);
+    }
 
-        //Update Button Text
-        update = QString::number(progressBar->value()) + QString("% resources loaded!");
-        text->append(update);
-
-        if(progressBar->value()==progressBar->maximum()) {
-            update = QString("All resources loaded");
-            text->append(update);
-        }
-
-    //TODO da lanciare se mai con un eccezione se il caricamento non va a buon fine
-    /*
-        //Update text log
-        QString log = "❌ Could not load file '" + resources->getFilename();
-        text->append(log);
-    */
+    //TODO lanciare eccezione se il caricamento non va a buon fine
 
 };
 
 void MainWindow::loadResources() {
-    //qui devo solo chiamare notify observer per caricare i files
     for(const auto &itr : resources) {
         itr->notifyObservers(itr->getFilesize(),itr->getFilename());
     }

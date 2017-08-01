@@ -6,10 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set (CMAKE_PREFIX_PATH "/Qt/5.7/mingw53_32/lib/cmake/Qt5Widgets")
 
-# Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
-
-add_subdirectory(test)
 
 find_package(Qt5Widgets REQUIRED)
 
