@@ -12,12 +12,12 @@
 #include <QTextEdit>
 #include <QLabel>
 #include "Observer.h"
-#include "Resources.h"
+#include "Resource.h"
 
 class MainWindow : public QMainWindow, public Observer {
 Q_OBJECT
 public:
-    MainWindow(double totdim, vector<Resources *> resourcesAddresses, QWidget *parent = 0);
+    MainWindow(double totdim, vector<Resource *> resourcesAddresses, QWidget *parent = 0);
 
     virtual ~MainWindow() {
         //before destroying the observer, unsubscribe al the subjects
@@ -28,13 +28,13 @@ public:
 
     virtual void update() override;
 
-    static Resources *resource;
+    static Resource *resource;
 
 private slots: //what happens on click button
     void loadResources();
 
 private:
-    vector<Resources *> resources; //vector the contains the addresses of all subjects subscribed
+    vector<Resource *> resources; //vector the contains the addresses of all subjects subscribed
     double totdim; //total dimension of the resources
 
     QPushButton *startbutton; //button to start loading resources

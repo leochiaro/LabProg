@@ -11,24 +11,21 @@ int main(int argc, char *argv[]) {
     //create qt application
     QApplication app(argc, argv);
 
-    //create resource objects
-    Resources a("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\first_file.txt");
-    Resources b("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\second_file.txt");
-    Resources c("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\third_file.txt");
-    Resources d("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\fourth_file.txt");
+    //vector to get all the subjects (class Resource)
+    vector<Resource> resources;
 
-    /*vector to register all the subject (class Resources) addresses
+    Resource::getResources(&resources);
+
+    /*vector to register all the subject (class Resource) addresses
     to pass to the observer (class MainWindow)*/
-    vector<Resources *> resourcesAddresses;
+    vector<Resource*> resourcesAddresses(resources.size());
 
-    //push back all the addresses in the vector
-    resourcesAddresses.push_back(&a);
-    resourcesAddresses.push_back(&b);
-    resourcesAddresses.push_back(&c);
-    resourcesAddresses.push_back(&d);
+    for(int i = 0; i<resources.size(); i++){
+        resourcesAddresses[i] = &resources[i];
+    }
 
-    //create and call main window
-    MainWindow mainWindow(Resources::totdim, resourcesAddresses);
+    //create and show main window
+    MainWindow mainWindow(Resource::totdim, resourcesAddresses);
     mainWindow.show();
 
     return app.exec();

@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5Widgets REQUIRED)
 
-set(SOURCE_FILES main.cpp Subject.h Observer.h Resources.cpp Resources.h MainWindow.cpp MainWindow.h)
+set(SOURCE_FILES main.cpp Subject.h Observer.h Resource.cpp Resource.h MainWindow.cpp MainWindow.h)
 add_executable(provaQT main.cpp)
 add_library(core ${SOURCE_FILES})
 target_link_libraries(core Qt5::Widgets)

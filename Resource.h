@@ -11,9 +11,9 @@
 
 using namespace std;
 
-class Resources : public Subject {
+class Resource : public Subject {
 public:
-    Resources(const char *filename) throw(runtime_error);
+    Resource(const char *filename);
 
     virtual void subscribeObserver(Observer *o) override;
 
@@ -25,21 +25,26 @@ public:
 
     void setLoaded(bool loaded);
 
-    const QString &getFilename() const;
+    const char *getFilename() const;
 
-    void setFilename(const QString &filename);
+    void setFilename(const char *filename);
 
     double getFilesize() const;
 
     void setFilesize(int filesize);
+
+    //TODO metodo load
+    void loadResource() throw(runtime_error);
 
     /*static variables to know the number of resource to load (totRisources)
     and to know the total size of the resources*/
     static int totRisources;
     static double totdim;
 
+    static void getResources(vector<Resource> * resources);
+
 private:
-    QString filename;//path of the resources
+    const char* filename;//path of the resources
     double filesize;//size of the resource
     list<Observer *> observers;//list that contains the addresses of the subscribed observer
     bool loaded;//boolean variables to know if the resource is loaded

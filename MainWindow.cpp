@@ -5,9 +5,9 @@
 #include <QDesktopWidget>
 #include "MainWindow.h"
 
-Resources * MainWindow::resource = nullptr;
+Resource * MainWindow::resource = nullptr;
 
-MainWindow::MainWindow(double totdim, vector<Resources *> resourcesAddresses, QWidget *parent) :
+MainWindow::MainWindow(double totdim, vector<Resource *> resourcesAddresses, QWidget *parent) :
         totdim(totdim), resources(resourcesAddresses), QMainWindow(parent) {
 
     //register all the resource in the resourcesAddresses vector to this observer
