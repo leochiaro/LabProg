@@ -13,7 +13,7 @@ using namespace std;
 
 class Resource : public Subject {
 public:
-    Resource(const char *filename);
+    Resource(const char *filename, double filesize);
 
     virtual void subscribeObserver(Observer *o) override;
 
