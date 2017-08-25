@@ -10,14 +10,9 @@
 #include "MainWindow.h"
 
 //initialization of static variables
-int Resource::totRisources = 0;
 double Resource::totdim = 0;
 
-Resource::Resource(const char *filename, double filesize) : filename(filename), filesize(filesize) {
-    Resource::totRisources++;//increment the number of resources to load
-    Resource::totdim+=filesize;
-    loaded = false;
-}
+Resource::Resource(const char *filename, bool loaded) : filename(filename), loaded(loaded) {}
 
 void Resource::subscribeObserver(Observer *o) {
     observers.push_back(o);
@@ -30,7 +25,8 @@ void Resource::unsubscribeObserver(Observer *o) {
 void Resource::notifyObservers() {
     //with this function every time the status of a file changes, every subscribed observer is updated
     for (const auto &itr : observers) {
-        MainWindow::resource = this;
+        if(dynamic_cast<MainWindow*>(itr))
+            MainWindow::resource = this;
         itr->update();
     }
 }
@@ -70,18 +66,17 @@ void Resource::getResources(vector<Resource> * resources) {
         try {
             (*resources)[i].loadResource();
         }
-        catch (runtime_error e) {
+        catch (runtime_error &e) {
             //if something goes wrong in the previous statement, an exception is thrown
 
-            cerr << e.what() <<" has not been loaded!"<< endl << endl;
-
-            Resource::totdim-=(*resources)[i].filesize;
+            cerr << e.what() <<(*resources)[i].getFilename()<<endl << endl;
             (*resources)[i].loaded = false;
 
 
         } catch (...) {
             //if there is an unknown problem an exception is thrown
             cerr << "Unknown exception caught!" << endl;
+            (*resources)[i].loaded = false;
         }
 
     }
@@ -89,18 +84,12 @@ void Resource::getResources(vector<Resource> * resources) {
 
 void Resource::loadResource() throw(runtime_error) {
 
-    this->setLoaded(false);
-
-    if(!this->loaded){
-        throw runtime_error(this->getFilename());
-    }
-
     /*open in read mode the resource. fopen return a FILE pointer then used to know the file size,
     if return nullptr, this means that file doesn't exist*/
-    /*resource = fopen(filename, "r");
+    resource = fopen(filename, "r");
     fseek(resource, 0, SEEK_END);
     if (resource == nullptr) {
-        throw runtime_error("File not found.");
+        throw runtime_error("Not loaded: ");
     }
     filesize = ftell(resource);//ftell return the file size
     Resource::totdim += filesize;//increment the total size of the resources
@@ -108,9 +97,9 @@ void Resource::loadResource() throw(runtime_error) {
     if (fclose(resource) == 0)
         fclose(resource);
     else {
-        throw runtime_error("Error closing file.");
+        throw runtime_error("Error closing: ");
     }
-    loaded = true;*/
+    loaded = true;
 }
 
 const char *Resource::getFilename() const {

@@ -13,7 +13,7 @@ using namespace std;
 
 class Resource : public Subject {
 public:
-    Resource(const char *filename, double filesize);
+    Resource(const char *filename, bool loaded=false);
 
     virtual void subscribeObserver(Observer *o) override;
 
@@ -33,15 +33,12 @@ public:
 
     void setFilesize(int filesize);
 
-    //TODO metodo load
+    //static methods to get and load resources
+    static void getResources(vector<Resource> * resources);
     void loadResource() throw(runtime_error);
 
-    /*static variables to know the number of resource to load (totRisources)
-    and to know the total size of the resources*/
-    static int totRisources;
+    //static variable to know the total size of the resources
     static double totdim;
-
-    static void getResources(vector<Resource> * resources);
 
 private:
     const char* filename;//path of the resources

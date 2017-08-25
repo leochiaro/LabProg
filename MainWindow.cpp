@@ -32,10 +32,6 @@ MainWindow::MainWindow(double totdim, vector<Resource *> resourcesAddresses, QWi
     text->setText("Click on the 'Start' button to start loading resources\n");
     text->setReadOnly(true);
 
-    QTextCursor c = text->textCursor();
-    c.movePosition(QTextCursor::End);
-    text->setTextCursor(c);
-
     //set progress bar values
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
