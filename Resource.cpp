@@ -49,10 +49,10 @@ void Resource::setFilesize(int filesize) {
 
 void Resource::getResources(vector<Resource> * resources) {
     //create resource objects
-    Resource a("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\first_file.txt", 10);
-    Resource b("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\second_file.txt", 20);
-    Resource c("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\third_file.txt", 30);
-    Resource d("C:\\Users\\leona\\CLionProjects\\LabProgram\\resources\\fourth_file.txt", 40);
+    Resource a("C:\\Users\\User\\CLionProjects\\LabProgram\\LabProg\\resources\\first_file.txt");
+    Resource b("C:\\Users\\User\\CLionProjects\\LabProgram\\LabProg\\resources\\second_file.txt");
+    Resource c("C:\\Users\\User\\CLionProjects\\LabProgram\\LabProg\\resources\\third_file.txt");
+    Resource d("C:\\Users\\User\\CLionProjects\\LabProgram\\LabProg\\resources\\fourth_file.txt");
 
 
     //push back all the addresses in the vector
@@ -70,12 +70,14 @@ void Resource::getResources(vector<Resource> * resources) {
             //if something goes wrong in the previous statement, an exception is thrown
 
             cerr << e.what() <<(*resources)[i].getFilename()<<endl << endl;
+            (*resources)[i].setFilesize(0);
             (*resources)[i].loaded = false;
 
 
         } catch (...) {
             //if there is an unknown problem an exception is thrown
             cerr << "Unknown exception caught!" << endl;
+            (*resources)[i].setFilesize(0);
             (*resources)[i].loaded = false;
         }
 

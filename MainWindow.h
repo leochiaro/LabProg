@@ -26,6 +26,10 @@ public:
         }
     }
 
+    double getTotdim() const;
+
+    QProgressBar *getProgressBar() const;
+
     virtual void update() override;
 
     static Resource *resource;

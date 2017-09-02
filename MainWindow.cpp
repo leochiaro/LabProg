@@ -51,15 +51,15 @@ void MainWindow::update() {
         //approximation of the increment to a integer value //approximation of the increment to a integer value
         perc = floor(perc + 0.5);
 
-        //update progress bar value
+        //updateProgressBar progress bar value
         progressBar->setValue(progressBar->value() + static_cast<int>(perc));
 
-        //update text
+        //updateProgressBar text
         QString update = QString(resource->getFilename()) + QString(" loaded successfully (") + QString::number(resource->getFilesize()) +
                          QString(" bytes).") + "\n";
         text->append(update);
 
-        //update text
+        //updateProgressBar text
         update = QString::number(progressBar->value()) + QString("% avaible resources loaded!\n");
         text->append(update);
 
@@ -78,4 +78,12 @@ void MainWindow::loadResources() {
     for (const auto &itr : resources) {
         itr->notifyObservers();
     }
+}
+
+double MainWindow::getTotdim() const {
+    return totdim;
+}
+
+QProgressBar *MainWindow::getProgressBar() const {
+    return progressBar;
 }
